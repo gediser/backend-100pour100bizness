@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class PublicationResource extends JsonResource
 {
@@ -17,6 +18,7 @@ class PublicationResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
+            'image_url' => $this->image ? URL::to($this->image) : null,
         ];
     }
 }

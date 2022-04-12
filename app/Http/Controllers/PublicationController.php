@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePublicationRequest;
 use App\Http\Requests\UpdatePublicationRequest;
 use App\Http\Resources\PublicationResource;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class PublicationController extends Controller
 {
@@ -32,6 +34,14 @@ class PublicationController extends Controller
     {
         //
         $data = $request->validated();
+        error_log("storing...");
+        // Check if image was given and save on local file system
+
+        if (isset($data['image'])){
+            $relativePath = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
+            error_log("mon image".$data['image']);
+        }
 
         $publication = Publication::create($data);
 
@@ -66,6 +76,18 @@ class PublicationController extends Controller
         //
         $data = $request->validated();
 
+        // Check if image was given and save on local file system
+        if (isset($data['image'])){
+            $relativePath = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
+
+            // If there is an old image, delete it
+            if ($publication->image){
+                $absolutePath = public_path($publication->image);
+                File::delete($absolutePath);
+            }
+        }
+
         // Update survey in the database
         $publication->update($data);
 
@@ -79,7 +101,7 @@ class PublicationController extends Controller
      * @param  \App\Models\Publication  $publication
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Publication $publication)
+    public function destroy(Publication $publication, Request $request)
     {
         //
         $user = $request->user();
@@ -87,8 +109,51 @@ class PublicationController extends Controller
             return abort(403, 'Unauthorized action.');
         }
         
-        $survey->delete();
+        $publication->delete();
+
+        // If there is an old image, delete it
+        if ($publication->image){
+            $absolutePath = public_path($publication->image);
+            File::delete($absolutePath);
+        }
 
         return response('', 204);
     }
+
+    private function saveImage($image){
+        // Check if image is valid base64 string
+        if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)){
+            // Take out the base64 encoded text without mime type
+            $image = substr($image, strpos($image, ',') + 1);
+
+            // Get the file extension
+            $type = strtolower($type[1]); // jpg, png, gif
+
+            // check if file is an image
+            if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif', 'webp'])){
+                throw new \Exception('invalid image type');
+            }
+            $image = str_replace(' ', '+', $image);
+            $image = base64_decode($image);
+
+            if ($image === false){
+                throw new \Exception('base64_decode failed');
+            }
+        }else{
+            throw new \Exception('did not match data URI with image data.');
+        }
+
+        $dir = 'images/';
+        $file = Str::random() . '.' . $type;
+        $absolutePath = public_path($dir);
+        $relativePath = $dir . $file;
+
+        if (!File::exists($absolutePath)){
+            File::makeDirectory($absolutePath, 0755, true);
+        }
+        file_put_contents($relativePath, $image);
+
+        return $relativePath;
+    }
+
 }

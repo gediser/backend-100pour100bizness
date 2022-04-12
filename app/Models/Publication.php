@@ -9,5 +9,5 @@ class Publication extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'description'];
+    protected $fillable = ['user_id', 'description', 'image'];
 }
