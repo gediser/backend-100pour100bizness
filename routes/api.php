@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PublicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,11 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::resource('/publication', PublicationController::class);
 });
+
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::post('/register', [AuthController::class, 'register']);
 
