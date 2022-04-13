@@ -21,8 +21,15 @@ class PublicationController extends Controller
     {
         //
         $user = $request->user();
-        return PublicationResource::collection(Publication::where('user_id', $user->id)->paginate(5));
+
+        return PublicationResource::collection(Publication::where('user_id', $user->id)->orderBy("created_at", "desc")->limit(300)->paginate(5));
+        
     }
+
+    public function viewPublicPublications(Request $request){
+        return PublicationResource::collection((new Publication())->orderBy("created_at", "desc")->limit(300)->paginate(5));
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -34,19 +41,19 @@ class PublicationController extends Controller
     {
         //
         $data = $request->validated();
-        error_log("storing...");
         // Check if image was given and save on local file system
 
         if (isset($data['image'])){
             $relativePath = $this->saveImage($data['image']);
             $data['image'] = $relativePath;
-            error_log("mon image".$data['image']);
         }
 
         $publication = Publication::create($data);
 
         return new PublicationResource($publication);
     }
+
+   
 
     /**
      * Display the specified resource.

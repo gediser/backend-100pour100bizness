@@ -21,10 +21,12 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     Route::resource('/publication', PublicationController::class);
 });
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/view/publication', [PublicationController::class, 'viewPublicPublications']);
 
 Route::post('/register', [AuthController::class, 'register']);
 
