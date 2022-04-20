@@ -9,10 +9,38 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function updateProfil(Request $request){
+        $data = $request->validate([
+            'id' => 'required',
+            'name' => 'required|string',
+            'telephone' => 'required|string',
+            /*'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)->mixedCase()->numbers()->symbols()
+            ]*/
+        ]);
+
+        $user = $request->user();
+        if ($user->id !== $data['id']){
+            return abort(403, 'Unauthorized action.');
+        }
+
+       $user->update([
+            'name' => $data['name'],
+            'telephone' => $data['telephone'],
+            //'password' => bcrypt($data['password'])
+        ]);
+
+        return response([
+            'success' => true
+        ]);
+    }
     public function register(Request $request) {
 
         $data = $request->validate([
             'name' => 'required|string',
+            'telephone' => 'required|string',
             'email' => 'required|email|string|unique:users,email',
             'password' => [
                 'required',
@@ -20,16 +48,17 @@ class AuthController extends Controller
                 Password::min(8)->mixedCase()->numbers()->symbols()
             ]
         ]);
-
+        
         /** @var \App\Models\User $user */
         $user = User::create([
             'name' => $data['name'],
+            'telephone' => $data['telephone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password'])
         ]);
 
         $token = $user->createToken('main')->plainTextToken;
-
+        
         return response([
             'user' => $user,
             'token' => $token,

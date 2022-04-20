@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::resource('/publication', PublicationController::class);
+
+    Route::post('/update-profil', [AuthController::class, 'updateProfil']);
 });
 
 Route::get('/view/publication', [PublicationController::class, 'viewPublicPublications']);
