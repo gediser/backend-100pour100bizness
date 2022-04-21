@@ -10,27 +10,47 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function updateProfil(Request $request){
-        $data = $request->validate([
-            'id' => 'required',
-            'name' => 'required|string',
-            'telephone' => 'required|string',
-            /*'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
-            ]*/
-        ]);
+        $password = $request->input('password');
+        $isPasswordNotFilled = strcmp($password, "") == 0 ? true : false;
+        if ($isPasswordNotFilled){ // Pas de mot de passe
+            $data = $request->validate([
+                'id' => 'required',
+                'name' => 'required|string',
+                'telephone' => 'required|string',
+            ]);
+        }else{
+            $data = $request->validate([
+                'id' => 'required',
+                'name' => 'required|string',
+                'telephone' => 'required|string',
+                'password' => [
+                    'required',
+                    'confirmed',
+                    Password::min(8)->mixedCase()->numbers()->symbols()
+                ]
+            ]);
+        }
+        
 
         $user = $request->user();
         if ($user->id !== $data['id']){
             return abort(403, 'Unauthorized action.');
         }
 
-       $user->update([
-            'name' => $data['name'],
-            'telephone' => $data['telephone'],
-            //'password' => bcrypt($data['password'])
-        ]);
+
+        if ($isPasswordNotFilled){ // On ne met pas a jour le mot de passe
+            $user->update([
+                'name' => $data['name'],
+                'telephone' => $data['telephone'],
+            ]);
+        }else{
+            $user->update([
+                'name' => $data['name'],
+                'telephone' => $data['telephone'],
+                'password' => bcrypt($data['password'])
+            ]);
+        }
+       
 
         return response([
             'success' => true
