@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\URL;
 
-class PublicationResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +16,9 @@ class PublicationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'description' => $this->description,
-            'image_url' => $this->image ? URL::to($this->image) : null,
-            'user' => new UserResource($this->user)
+            'email' => $this->email,
+            'name' => $this->name,
+            'telephone' => $this->telephone
         ];
     }
 }
