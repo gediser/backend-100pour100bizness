@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,18 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::resource('/publication', PublicationController::class);
 
+    Route::resource('/product', ProductController::class);
+
     Route::post('/update-profil', [AuthController::class, 'updateProfil']);
 });
 
+Route::get('/categories', [ProductController::class, 'categories']);
+
+Route::get('/seed/categories', [ProductController::class, 'seedCategories']);
+
 Route::get('/view/publication', [PublicationController::class, 'viewPublicPublications']);
+
+Route::get('/view/product', [ProductController::class, 'viewPublicProducts']);
 
 Route::post('/register', [AuthController::class, 'register']);
 
