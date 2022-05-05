@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/update-profil', [AuthController::class, 'updateProfil']);
 });
+
+Route::post('/search/all', [SearchController::class, 'all']);
 
 Route::get('/categories', [ProductController::class, 'categories']);
 
