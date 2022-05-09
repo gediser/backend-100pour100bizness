@@ -33,4 +33,24 @@ class SearchController extends Controller
             "products" => ProductResource::collection($products)
         ]);
     } 
+
+    public function category(int $id){
+
+        $publications = Publication::query()
+                            ->where("category_id", $id)
+                            ->orderBy("created_at", "desc")
+                            ->limit(3)
+                            ->get();
+
+        $products = Product::query()
+                            ->where("category_id", $id)
+                            ->orderBy("created_at", "desc")
+                            ->limit(3)
+                            ->get();
+
+        return response([
+            "publications" => PublicationResource::collection($publications),
+            "products" => ProductResource::collection($products)
+        ]);
+    } 
 }

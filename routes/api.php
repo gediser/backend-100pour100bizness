@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/update-profil', [AuthController::class, 'updateProfil']);
 });
 
+Route::post('/search/category/{id}', [SearchController::class, 'category']);
+
 Route::post('/search/all', [SearchController::class, 'all']);
 
 Route::get('/categories', [ProductController::class, 'categories']);
