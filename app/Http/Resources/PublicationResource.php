@@ -19,6 +19,7 @@ class PublicationResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'image_url' => $this->image ? URL::to($this->image) : null,
+            'category_id' => $this->category_id,
             'user' => new UserResource($this->user)
         ];
     }

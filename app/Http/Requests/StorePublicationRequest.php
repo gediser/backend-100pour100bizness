@@ -34,6 +34,7 @@ class StorePublicationRequest extends FormRequest
             'user_id' => 'exists:users,id',
             'description' => 'nullable|string',
             'image' => 'nullable|string',
+            'category_id' => 'exists:categories,id',
         ];
     }
 }

@@ -97,7 +97,7 @@ class ProductController extends Controller
         // Update survey in the database
         $product->update($data);
 
-        return new ProductResource($publication);
+        return new ProductResource($product);
     }
 
     /**

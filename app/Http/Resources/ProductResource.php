@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             'image_url' => $this->image ? URL::to($this->image) : null,
             'description' => $this->description,
             'category_id' => $this->category_id,
+            'prix' => $this->prix,
             'user' => new UserResource($this->user)
         ];
     }
