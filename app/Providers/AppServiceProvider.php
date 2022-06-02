@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         if (App::environment('production')) {
-            // The environment is production
+            //The environment is production
             $this->app['request']->server->set('HTTPS','on');
         }
     }
