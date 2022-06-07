@@ -30,7 +30,8 @@ class SearchController extends Controller
 
         return response([
             "publications" => PublicationResource::collection($publications),
-            "products" => ProductResource::collection($products)
+            "products" => ProductResource::collection($products),
+            "q" => $search
         ]);
     } 
 
