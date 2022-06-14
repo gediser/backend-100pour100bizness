@@ -77,6 +77,8 @@ class AuthController extends Controller
             'password' => bcrypt($data['password'])
         ]);
 
+        $user->roles()->attach(1); 
+
         $token = $user->createToken('main')->plainTextToken;
         
         return response([
@@ -93,7 +95,7 @@ class AuthController extends Controller
             ],
             'remember' => 'boolean'
         ]);
-
+        
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
@@ -109,9 +111,8 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
-
         return response([
-            'user' => $user,
+            'user' => User::with('roles:id,name')->where('id', $user->id)->first(),
             'token' => $token
         ]);
     }
