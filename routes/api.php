@@ -30,11 +30,18 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::resource('/product', ProductController::class);
 
     Route::post('/update-profil', [AuthController::class, 'updateProfil']);
+
+    Route::get('/users/search', [SearchController::class, 'usersSearch']);
+
+    Route::post('/users/make/admin', [SearchController::class, 'usersMakeAdmin']);
+    Route::post('/users/make/user', [SearchController::class, 'usersMakeUser']);
+
 });
 
 Route::post('/search/category/{id}', [SearchController::class, 'category']);
 
 Route::post('/search/all', [SearchController::class, 'all']);
+
 
 Route::get('/categories', [ProductController::class, 'categories']);
 
