@@ -43,7 +43,6 @@ class SearchController extends Controller
         }else{
             return response(User::with('roles')->where('email', $email)->orderBy('id', 'desc')->limit(100)->get());
         }
-        error_log("My user".$email);
     }
 
     public function usersMakeAdmin(Request $request){

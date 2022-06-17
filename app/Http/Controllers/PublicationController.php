@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePublicationRequest;
 use App\Http\Requests\UpdatePublicationRequest;
 use App\Http\Resources\PublicationResource;
+use Error;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
@@ -25,6 +26,15 @@ class PublicationController extends Controller
         return PublicationResource::collection(Publication::where('user_id', $user->id)->orderBy("created_at", "desc")->limit(300)->paginate(5));
         
     }
+
+    public function publicationsJusteGet(Request $request){
+        $publications_ids = explode(',', $request->query('pubs'));
+        for($i=0; $i < count($publications_ids); $i++){
+            $publications_ids[$i] = intval(trim($publications_ids[$i]));
+        }
+        return PublicationResource::collection(Publication::whereIn('id', $publications_ids)->get());
+    }
+
 
     public function viewPublicPublications(Request $request){
         return PublicationResource::collection((new Publication())->orderBy("created_at", "desc")->limit(300)->paginate(5));

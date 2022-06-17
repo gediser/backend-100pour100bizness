@@ -36,6 +36,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/users/make/admin', [SearchController::class, 'usersMakeAdmin']);
     Route::post('/users/make/user', [SearchController::class, 'usersMakeUser']);
 
+    Route::get('/juste-pour-vous-publications/get', [PublicationController::class, 'publicationsJusteGet']);
+
 });
 
 Route::post('/search/category/{id}', [SearchController::class, 'category']);
