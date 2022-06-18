@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Error;
 use App\Models\Publication;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use App\Http\Resources\PublicationResource;
 use App\Http\Requests\StorePublicationRequest;
 use App\Http\Requests\UpdatePublicationRequest;
-use App\Http\Resources\PublicationResource;
-use Error;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 
 class PublicationController extends Controller
 {
@@ -35,6 +36,23 @@ class PublicationController extends Controller
         return PublicationResource::collection(Publication::whereIn('id', $publications_ids)->get());
     }
 
+    public function publicationsJusteSave(Request $request){
+        DB::table('justepourvous')->delete();
+
+        $publications = $request->input('publications');
+        DB::table('justepourvous')->insert($publications);
+
+        return response(["success"=>true]);
+    }
+
+    public function publicationsJusteGetAll(){
+        $publications = DB::table('justepourvous')->get();
+        $publications_ids = [];
+        for($i=0; $i<count($publications); $i++){
+            $publications_ids[] = $publications[$i]->publication_id;
+        }
+        return PublicationResource::collection(Publication::whereIn('id', $publications_ids)->orderBy("id", "asc")->get());
+    }
 
     public function viewPublicPublications(Request $request){
         return PublicationResource::collection((new Publication())->orderBy("created_at", "desc")->limit(300)->paginate(5));
