@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/juste-pour-vous-publications/save', [PublicationController::class, 'publicationsJusteSave']);
     Route::get('/juste-pour-vous-publications/get-all', [PublicationController::class, 'publicationsJusteGetAll']);
     Route::post('/meilleur-classement/save', [PublicationController::class, 'publicationsMeilleurSave']);
-    Route::get('/meilleur-classement/get-all', [PublicationController::class, 'publicationsMeileurGetAll']);
+    Route::get('/meilleur-classement/get-all', [PublicationController::class, 'publicationsMeilleurGetAll']);
 });
 
 Route::post('/search/category/{id}', [SearchController::class, 'category']);
