@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,15 +37,18 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/users/make/admin', [SearchController::class, 'usersMakeAdmin']);
     Route::post('/users/make/user', [SearchController::class, 'usersMakeUser']);
     
-    Route::get('/juste-pour-vous-publications/get', [PublicationController::class, 'publicationsJusteGet']);
+    Route::get('/publications/get', [PublicationController::class, 'publicationsGet']);
     Route::post('/juste-pour-vous-publications/save', [PublicationController::class, 'publicationsJusteSave']);
     Route::get('/juste-pour-vous-publications/get-all', [PublicationController::class, 'publicationsJusteGetAll']);
+    Route::post('/meilleur-classement/save', [PublicationController::class, 'publicationsMeilleurSave']);
+    Route::get('/meilleur-classement/get-all', [PublicationController::class, 'publicationsMeileurGetAll']);
 });
 
 Route::post('/search/category/{id}', [SearchController::class, 'category']);
 
 Route::post('/search/all', [SearchController::class, 'all']);
 
+Route::get('/home/data', [HomeController::class, 'homeData']);
 
 Route::get('/categories', [ProductController::class, 'categories']);
 

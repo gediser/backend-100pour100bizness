@@ -28,7 +28,7 @@ class PublicationController extends Controller
         
     }
 
-    public function publicationsJusteGet(Request $request){
+    public function publicationsGet(Request $request){
         $publications_ids = explode(',', $request->query('pubs'));
         for($i=0; $i < count($publications_ids); $i++){
             $publications_ids[$i] = intval(trim($publications_ids[$i]));
@@ -47,6 +47,24 @@ class PublicationController extends Controller
 
     public function publicationsJusteGetAll(){
         $publications = DB::table('justepourvous')->get();
+        $publications_ids = [];
+        for($i=0; $i<count($publications); $i++){
+            $publications_ids[] = $publications[$i]->publication_id;
+        }
+        return PublicationResource::collection(Publication::whereIn('id', $publications_ids)->orderBy("id", "asc")->get());
+    }
+
+    public function publicationsMeilleurSave(Request $request){
+        DB::table('meilleurclassement')->delete();
+
+        $publications = $request->input('publications');
+        DB::table('meilleurclassement')->insert($publications);
+
+        return response(["success"=>true]);
+    }
+
+    public function publicationsMeilleurGetAll(){
+        $publications = DB::table('meilleurclassement')->get();
         $publications_ids = [];
         for($i=0; $i<count($publications); $i++){
             $publications_ids[] = $publications[$i]->publication_id;
