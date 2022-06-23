@@ -54,6 +54,8 @@ Route::get('/categories', [ProductController::class, 'categories']);
 
 Route::get('/seed/categories', [ProductController::class, 'seedCategories']);
 
+Route::get('/publication-get/{id}', [PublicationController::class, 'getOne']);
+
 Route::get('/view/publication', [PublicationController::class, 'viewPublicPublications']);
 
 Route::get('/view/product', [ProductController::class, 'viewPublicProducts']);

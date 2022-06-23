@@ -28,6 +28,10 @@ class PublicationController extends Controller
         
     }
 
+    public function getOne(int $id){
+        return response(new PublicationResource(Publication::find($id)));
+    }
+
     public function publicationsGet(Request $request){
         $publications_ids = explode(',', $request->query('pubs'));
         for($i=0; $i < count($publications_ids); $i++){
