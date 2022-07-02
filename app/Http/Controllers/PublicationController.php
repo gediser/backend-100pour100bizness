@@ -115,7 +115,7 @@ class PublicationController extends Controller
     {
         //
         $user = $request->user();
-        if ($user->id !== $publication->user_id){
+        if ($user->id != $publication->user_id){
             return abort(403, 'Unauthorized action.');
         }
         return new PublicationResource($publication);
