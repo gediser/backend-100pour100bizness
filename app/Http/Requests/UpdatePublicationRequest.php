@@ -14,7 +14,7 @@ class UpdatePublicationRequest extends FormRequest
     public function authorize()
     {
         $publication = $this->route('publication');
-        if ($this->user()->id !== $publication->user_id){
+        if ($this->user()->id != $publication->user_id){
             return false;
         }
         return true;

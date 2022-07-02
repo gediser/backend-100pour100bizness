@@ -64,7 +64,7 @@ class ProductController extends Controller
     {
         //
         $user = $request->user();
-        if ($user->id !== $product->user_id){
+        if ($user->id != $product->user_id){
             return abort(403, 'Unauthorized action.');
         }
         return new ProductResource($product);
@@ -110,7 +110,7 @@ class ProductController extends Controller
     {
         //
         $user = $request->user();
-        if ($user->id !== $product->user_id){
+        if ($user->id != $product->user_id){
             return abort(403, 'Unauthorized action.');
         }
         
