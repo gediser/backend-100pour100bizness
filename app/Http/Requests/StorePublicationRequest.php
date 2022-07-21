@@ -32,6 +32,7 @@ class StorePublicationRequest extends FormRequest
         return [
             //
             'user_id' => 'exists:users,id',
+            'activate' => 'boolean',
             'description' => 'nullable|string',
             'image' => 'nullable|string',
             'category_id' => 'exists:categories,id',

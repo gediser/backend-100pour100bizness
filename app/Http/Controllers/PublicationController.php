@@ -121,6 +121,21 @@ class PublicationController extends Controller
         return new PublicationResource($publication);
     }
 
+    public function activate(Request $request){
+        $idPublication = $request->input('id');
+
+        Publication::where('id', $idPublication)->update(['activate' => true]);
+
+        return response(['success' => true]);
+    }
+
+    public function desactivate(Request $request){
+        $idPublication = $request->input('id');
+
+        Publication::where('id', $idPublication)->update(['activate' => false]);
+
+        return response(['success' => true]);
+    }
     /**
      * Update the specified resource in storage.
      *

@@ -58,6 +58,10 @@ Route::get('/publication-get/{id}', [PublicationController::class, 'getOne']);
 
 Route::get('/view/publication', [PublicationController::class, 'viewPublicPublications']);
 
+Route::post('/publication/activate', [PublicationController::class, 'activate']);
+
+Route::post('/publication/desactivate', [PublicationController::class, 'desactivate']);
+
 Route::get('/view/product', [ProductController::class, 'viewPublicProducts']);
 
 Route::post('/register', [AuthController::class, 'register']);
