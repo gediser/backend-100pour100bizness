@@ -70,6 +70,22 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    public function activate(Request $request){
+        $idProduct = $request->input('id');
+
+        Product::where('id', $idProduct)->update(['activate' => true]);
+
+        return response(['success' => true]);
+    }
+
+    public function desactivate(Request $request){
+        $idProduct = $request->input('id');
+
+        Product::where('id', $idProduct)->update(['activate' => false]);
+
+        return response(['success' => true]);
+    }
+
     /**
      * Update the specified resource in storage.
      *

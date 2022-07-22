@@ -62,6 +62,10 @@ Route::post('/publication/activate', [PublicationController::class, 'activate'])
 
 Route::post('/publication/desactivate', [PublicationController::class, 'desactivate']);
 
+Route::post('/product/activate', [ProductController::class, 'activate']);
+
+Route::post('/product/desactivate', [ProductController::class, 'desactivate']);
+
 Route::get('/view/product', [ProductController::class, 'viewPublicProducts']);
 
 Route::post('/register', [AuthController::class, 'register']);

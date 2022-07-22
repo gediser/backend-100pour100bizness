@@ -17,6 +17,7 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'activate' => $this->activate,
             'name' => $this->name,
             'image_url' => $this->image ? URL::to($this->image) : null,
             'description' => $this->description,

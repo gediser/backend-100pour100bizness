@@ -32,6 +32,7 @@ class StoreProductRequest extends FormRequest
         return [
             //
             'user_id' => 'exists:users,id',
+            'activate' => 'boolean',
             'category_id' => 'exists:categories,id',
             'description' => 'nullable|string',
             'image' => 'nullable|string',
