@@ -17,7 +17,7 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'activate' => $this->activate,
+            'activate' => $this->activate == 0 ? false : true,
             'name' => $this->name,
             'image_url' => $this->image ? URL::to($this->image) : null,
             'description' => $this->description,
