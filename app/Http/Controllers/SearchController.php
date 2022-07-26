@@ -16,16 +16,16 @@ class SearchController extends Controller
     //
     public function all(Request $request){
         $search = $request->input("q");
-
+        $regExpSearch = preg_quote($search, "/");
         $publications = Publication::query()
-                            ->where("description", "LIKE", "%{$search}%")
+                            ->whereRaw("UPPER(description) LIKE '%". strtoupper($search)."%'")
                             ->orderBy("created_at", "desc")
                             ->limit(3)
                             ->get();
 
         $products = Product::query()
-                            ->where("description", "LIKE", "%{$search}%")
-                            ->orWhere("name", "LIKE", "%{$search}%")
+                            ->whereRaw("UPPER(description) LIKE '%". strtoupper($search)."%'")
+                            ->orWhereRaw("UPPER(name) LIKE '%". strtoupper($search)."%'")
                             ->orderBy("created_at", "desc")
                             ->limit(3)
                             ->get();
