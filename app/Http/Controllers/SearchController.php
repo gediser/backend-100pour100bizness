@@ -16,7 +16,6 @@ class SearchController extends Controller
     //
     public function all(Request $request){
         $search = $request->input("q");
-        $regExpSearch = preg_quote($search, "/");
         $publications = Publication::query()
                             ->whereRaw("UPPER(description) LIKE '%". strtoupper($search)."%'")
                             ->orderBy("created_at", "desc")
