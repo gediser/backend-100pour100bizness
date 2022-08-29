@@ -21,6 +21,7 @@ class PublicationResource extends JsonResource
             'activate' => $this->activate == 0 ? false : true,
             'image_url' => $this->image ? URL::to($this->image) : null,
             'category_id' => $this->category_id,
+            'created_at' => $this->created_at,
             'user' => new UserResource($this->user)
         ];
     }
